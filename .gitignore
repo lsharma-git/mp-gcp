@@ -1,0 +1,12 @@
+## .gitignore
+
+# terraform
+.terraform/
+terraform.tfstate*
+.terraform.tfstate.lock.info
+
+
+# environment test variables
+
+# editors
+.vscode
