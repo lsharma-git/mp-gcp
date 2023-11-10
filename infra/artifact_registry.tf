@@ -8,7 +8,7 @@ resource "google_artifact_registry_repository" "my-repo" {
   depends_on    = [google_project_service.artifactregistry_api]
   location      = var.region
   project       = var.project_id
-  repository_id = "my-artifact-registry"
+  repository_id = "my-customnginx"
   description   = "My GCP repository"
   format        = "DOCKER"
   labels = {
