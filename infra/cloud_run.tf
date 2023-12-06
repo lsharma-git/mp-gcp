@@ -14,8 +14,8 @@ resource "google_cloud_run_v2_service" "cloudrun" {
 
   template {
     annotations = {
-      "autoscaling.knative.dev/minScale" = var.min_instances
-      "autoscaling.knative.dev/maxScale" = 100
+      "minScale" = var.min_instances
+      "maxScale" = 100
     }
     scaling {
       max_instance_count = 2
