@@ -75,13 +75,6 @@ resource "google_cloud_run_v2_service" "cloudrun" {
     "created-by" : "terraform"
   }
 
-  lifecycle {
-    ignore_changes = [
-      # Some annotations set by google that shouldn't be taken into account
-      metadata.labels["run.googleapis.com/satisfiesPzs"],
-      template.metadata.labels["run.googleapis.com/startupProbeType"]
-    ]
-  }
 }
 
 data "google_iam_policy" "noauth" {
