@@ -70,7 +70,7 @@ resource "google_cloud_run_v2_service" "cloudrun" {
   }
   traffic {
     type     = "TRAFFIC_TARGET_ALLOCATION_TYPE_REVISION"
-    revision = "latest"
+    revision = "cloudrun-service-project1-latest"
     percent  = 100
   }
 
