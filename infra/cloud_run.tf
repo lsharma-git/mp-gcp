@@ -29,15 +29,15 @@ resource "google_cloud_run_v2_service" "cloudrun" {
         name  = "_PROJECT_ID"
         value = var.project_id
       }
-      env {
-        name = "MY_SECRET_REF"
-        value_source {
-          secret_key_ref {
-            secret  = data.google_secret_manager_secret_version.my_secret.secret
-            version = data.google_secret_manager_secret_version.my_secret.version
-          }
-        }
-      }
+      # env {
+      #   name = "MY_SECRET_REF"
+      #   value_source {
+      #     secret_key_ref {
+      #       secret  = data.google_secret_manager_secret_version.my_secret.secret
+      #       version = data.google_secret_manager_secret_version.my_secret.version
+      #     }
+      #   }
+      # }
       ports {
         container_port = 80
       }
