@@ -78,8 +78,8 @@ resource "google_cloud_run_v2_service" "cloudrun" {
   lifecycle {
     ignore_changes = [
       # Some annotations set by google that shouldn't be taken into account
-      metadata[0].labels["run.googleapis.com/satisfiesPzs"],
-      template[0].metadata[0].labels["run.googleapis.com/startupProbeType"]
+      metadata.labels["run.googleapis.com/satisfiesPzs"],
+      template.metadata.labels["run.googleapis.com/startupProbeType"]
     ]
   }
 }
