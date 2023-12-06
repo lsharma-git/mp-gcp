@@ -69,7 +69,9 @@ resource "google_cloud_run_v2_service" "cloudrun" {
     service_account = "cloudbuild@dgcp-sandbox-lalit-sharma.iam.gserviceaccount.com"
   }
   traffic {
-    percent = 100
+    type     = "TRAFFIC_TARGET_ALLOCATION_TYPE_REVISION"
+    revision = "latest"
+    percent  = 100
   }
 
   labels = {
