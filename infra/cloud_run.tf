@@ -13,12 +13,10 @@ resource "google_cloud_run_v2_service" "cloudrun" {
   launch_stage = "BETA"
 
   template {
-    annotations = {
-      "minScale" = var.min_instances
-      "maxScale" = 100
-    }
+
     scaling {
-      max_instance_count = 2
+      min_instance_count = var.min_instances
+      max_instance_count = 4
     }
     containers {
       image = "europe-west3-docker.pkg.dev/dgcp-sandbox-lalit-sharma/my-customnginx/customnginx"
@@ -69,12 +67,20 @@ resource "google_cloud_run_v2_service" "cloudrun" {
     service_account = "cloudbuild@dgcp-sandbox-lalit-sharma.iam.gserviceaccount.com"
   }
   traffic {
-    type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_REVISION"
+    type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
     percent = 100
   }
 
   labels = {
     "created-by" : "terraform"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      # Some annotations set by google that shouldn't be taken into account
+      metadata[0].labels["run.googleapis.com/satisfiesPzs"],
+      template[0].metadata[0].labels["run.googleapis.com/startupProbeType"]
+    ]
   }
 }
 
