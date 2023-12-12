@@ -100,7 +100,7 @@ resource "google_compute_url_map" "load_balancer" {
   #   #   }
 }
 
-# resource "google_compute_url_map" "url_map" {
+# resource "google_compute_url_map" "load_balancer" {
 #   name = "${var.service_name}-urlmap"
 #   default_url_redirect {
 #     https_redirect         = true
@@ -120,28 +120,28 @@ resource "google_compute_health_check" "http_health_check" {
   }
 }
 
-resource "google_compute_target_http_proxy" "http_redirect" {
+resource "google_compute_target_http_proxy" "http_proxy" {
   project = var.project_id
   name    = "${var.service_name}-http-proxy"
-  url_map = google_compute_url_map.url_map.self_link
+  url_map = google_compute_url_map.load_balancer.self_link
 }
 
-resource "google_compute_target_https_proxy" "https_redirect" {
+resource "google_compute_target_https_proxy" "https_proxy" {
   project          = var.project_id
   name             = "${var.service_name}-https-proxy"
   ssl_policy       = google_compute_ssl_policy.ssl_policy.self_link
-  url_map          = google_compute_url_map.url_map.self_link
+  url_map          = google_compute_url_map.load_balancer.self_link
   ssl_certificates = [google_compute_managed_ssl_certificate.ssl_certificate.self_link]
 }
 
-resource "google_compute_global_forwarding_rule" "https_redirect" {
+resource "google_compute_global_forwarding_rule" "http_redirect" {
   name       = "${var.service_name}-lb-http-forwarding-rule"
-  target     = google_compute_target_http_proxy.https_redirect.id
+  target     = google_compute_target_http_proxy.http_proxy.id
   ip_address = google_compute_global_address.lb_ip.address
   port_range = "80"
 }
 
-resource "google_compute_global_forwarding_rule" "https_forwarding_rule" {
+resource "google_compute_global_forwarding_rule" "https_redirect" {
   project    = var.project_id
   name       = "${var.service_name}-lb-https-forwarding-rule"
   ip_address = google_compute_global_address.lb_ip.address
