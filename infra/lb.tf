@@ -85,7 +85,7 @@ resource "google_compute_url_map" "load_balancer" {
     default_service = google_compute_backend_service.default.id
 
     path_rule {
-      paths   = ["/"]
+      paths   = ["/ui"]
       service = google_compute_backend_service.default.id
     }
   }
