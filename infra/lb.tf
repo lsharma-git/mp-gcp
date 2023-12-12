@@ -17,7 +17,7 @@ resource "google_project_service" "resource_api" {
 }
 
 resource "google_compute_global_address" "lb_ip" {
-  name = "${var.service_name}-address"
+  name = "${var.service_name}-lb-address"
 }
 
 resource "google_compute_ssl_policy" "ssl_policy" {
