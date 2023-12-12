@@ -14,8 +14,12 @@ variable "project_creation_with_new_folder" {
   default = true
 }
 variable "sa_role" {
-  type    = list(string)
-  default = ["roles/artifactregistry.admin", "roles/run.admin"]
+  type = list(string)
+  default = [
+    "roles/artifactregistry.admin",
+    "roles/run.admin",
+    "roles/secretmanager.secretAccessor"
+  ]
 }
 variable "service_name" {
   type    = string
