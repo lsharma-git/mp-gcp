@@ -43,5 +43,5 @@ variable "loadbalancer_name" {
 }
 variable "managed_ssl_certificate_domains" {
   type    = list(string)
-  default = ["managed_ssl_certificate_domains"]
+  default = ["example.com"]
 }

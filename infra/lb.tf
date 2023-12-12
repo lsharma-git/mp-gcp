@@ -52,50 +52,6 @@ resource "google_compute_region_network_endpoint_group" "cloudrun_neg" {
   }
 }
 
-# resource "google_compute_target_pool" "load_balancer" {
-#   name   = "load-balancer"
-#   region = var.region
-
-#   health_checks = [google_compute_health_check.http_health_check.id]
-# }
-
-# resource "google_compute_url_map" "load_balancer" {
-#   name            = "load-balancer"
-#   project         = var.project_id
-#   description     = "Map traffic to Cloud Run services"
-#   default_service = google_compute_backend_service.load_balancer.id
-
-#   host_rule {
-#     hosts        = ["example.com"]
-#     path_matcher = "mysite"
-#   }
-
-#   # host_rule {
-#   #   hosts        = ["myothersite.com"]
-#   #   path_matcher = "otherpaths"
-#   # }
-
-#   path_matcher {
-#     name            = "mysite"
-#     default_service = google_cloudrun_service.service1.id
-
-#     path_rule {
-#       paths   = ["/service1"]
-#       service = google_cloudrun_service.service1.id
-#     }
-#   }
-
-#   # path_matcher {
-#   #   name            = "otherpaths"
-#   #   default_service = google_cloudrun_service.service2.id
-
-#   #   path_rule {
-#   #     paths   = ["/service2"]
-#   #     service = google_cloudrun_service.service2.id
-#   #   }
-#   # }
-# }
-
 resource "google_compute_backend_service" "default" {
   name = "${var.service_name}-backend"
 
@@ -108,16 +64,52 @@ resource "google_compute_backend_service" "default" {
   }
 }
 
-resource "google_compute_url_map" "url_map" {
-  name = "${var.service_name}-urlmap"
-  default_url_redirect {
-    https_redirect         = true
-    redirect_response_code = "MOVED_PERMANENTLY_DEFAULT"
-    strip_query            = false
+resource "google_compute_url_map" "load_balancer" {
+  name            = "${var.service_name}-load-balancer"
+  project         = var.project_id
+  description     = "Map traffic to Cloud Run services"
+  default_service = google_compute_backend_service.default.id
+
+  host_rule {
+    hosts        = ["*"]
+    path_matcher = "mysite"
   }
 
-  default_service = google_compute_backend_service.default.id
+  #   # host_rule {
+  #   #   hosts        = ["myothersite.com"]
+  #   #   path_matcher = "otherpaths"
+  #   # }
+
+  path_matcher {
+    name            = "mysite"
+    default_service = google_compute_backend_service.default.id
+
+    path_rule {
+      paths   = ["/"]
+      service = google_compute_backend_service.default.id
+    }
+  }
+
+  #   # path_matcher {
+  #   #   name            = "otherpaths"
+  #   #   default_service = google_cloudrun_service.service2.id
+
+  #   #   path_rule {
+  #   #     paths   = ["/service2"]
+  #   #     service = google_cloudrun_service.service2.id
+  #   #   }
 }
+
+# resource "google_compute_url_map" "url_map" {
+#   name = "${var.service_name}-urlmap"
+#   default_url_redirect {
+#     https_redirect         = true
+#     redirect_response_code = "MOVED_PERMANENTLY_DEFAULT"
+#     strip_query            = false
+#   }
+
+#   default_service = google_compute_backend_service.default.id
+# }
 
 resource "google_compute_health_check" "http_health_check" {
   name               = "health-check"
@@ -128,13 +120,13 @@ resource "google_compute_health_check" "http_health_check" {
   }
 }
 
-resource "google_compute_target_http_proxy" "https_redirect" {
+resource "google_compute_target_http_proxy" "http_redirect" {
   project = var.project_id
   name    = "${var.service_name}-http-proxy"
   url_map = google_compute_url_map.url_map.self_link
 }
 
-resource "google_compute_target_https_proxy" "https_proxy" {
+resource "google_compute_target_https_proxy" "https_redirect" {
   project          = var.project_id
   name             = "${var.service_name}-https-proxy"
   ssl_policy       = google_compute_ssl_policy.ssl_policy.self_link
