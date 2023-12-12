@@ -137,7 +137,7 @@ resource "google_compute_target_http_proxy" "https_redirect" {
 resource "google_compute_target_https_proxy" "https_proxy" {
   project          = var.project_id
   name             = "${var.service_name}-https-proxy"
-  ssl_policy       = google_compute_ssl_policy.sl_policy.self_link
+  ssl_policy       = google_compute_ssl_policy.ssl_policy.self_link
   url_map          = google_compute_url_map.url_map.self_link
   ssl_certificates = [google_compute_managed_ssl_certificate.ssl_certificate.self_link]
 }
