@@ -1,10 +1,11 @@
+# Enables the Cloud Run API service in the project
 resource "google_project_service" "cloudrun_api" {
   project            = var.project_id
   service            = "run.googleapis.com"
   disable_on_destroy = true
 }
 
-
+# Create Cloudrun Service 
 resource "google_cloud_run_v2_service" "cloudrun" {
   depends_on   = [google_project_service.cloudrun_api]
   name         = var.cloudrun_name
@@ -29,15 +30,6 @@ resource "google_cloud_run_v2_service" "cloudrun" {
         name  = "_PROJECT_ID"
         value = var.project_id
       }
-      # env {
-      #   name = "MY_SECRET_REF"
-      #   value_source {
-      #     secret_key_ref {
-      #       secret  = data.google_secret_manager_secret_version.my_secret.secret
-      #       version = data.google_secret_manager_secret_version.my_secret.version
-      #     }
-      #   }
-      # }
       ports {
         container_port = 80
       }
@@ -64,7 +56,7 @@ resource "google_cloud_run_v2_service" "cloudrun" {
       }
       egress = "ALL_TRAFFIC"
     }
-    service_account = "cloudbuild@dgcp-sandbox-lalit-sharma.iam.gserviceaccount.com"
+    service_account = module.sa.member
   }
   traffic {
     type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"

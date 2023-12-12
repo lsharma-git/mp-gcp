@@ -1,7 +1,7 @@
-variable "project_id" { }
+variable "project_id" {}
 variable "region" { default = "europe-west3" }
 variable "zone" { default = "europe-west3-c" }
-
+variable "environment" { default = "dev" }
 variable "backend_config_map" {
   default     = {}
   description = "Config for frontend pipeline consumption"
@@ -15,7 +15,11 @@ variable "project_creation_with_new_folder" {
 }
 variable "sa_role" {
   type    = list(string)
-  default = ["roles/artifactregistry.admin"]
+  default = ["roles/artifactregistry.admin", "roles/run.admin"]
+}
+variable "service_name" {
+  type    = string
+  default = "mp"
 }
 variable "cloudrun_name" {
   type    = string
@@ -24,4 +28,12 @@ variable "cloudrun_name" {
 variable "min_instances" {
   type    = number
   default = 1
+}
+variable "loadbalancer_name" {
+  type    = string
+  default = "lb-service-project1"
+}
+variable "managed_ssl_certificate_domains" {
+  type    = list(string)
+  default = ["managed_ssl_certificate_domains"]
 }
