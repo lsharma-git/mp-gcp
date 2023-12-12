@@ -33,6 +33,10 @@ variable "min_instances" {
   type    = number
   default = 1
 }
+variable "max_instances" {
+  type    = number
+  default = 2
+}
 variable "loadbalancer_name" {
   type    = string
   default = "lb-service-project1"

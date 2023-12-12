@@ -17,7 +17,7 @@ resource "google_cloud_run_v2_service" "cloudrun" {
 
     scaling {
       min_instance_count = var.min_instances
-      max_instance_count = 4
+      max_instance_count = var.max_instances
     }
     containers {
       image = "europe-west3-docker.pkg.dev/dgcp-sandbox-lalit-sharma/my-customnginx/customnginx"
