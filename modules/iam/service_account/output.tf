@@ -10,3 +10,6 @@ output "member" {
 output "output_all" {
   value = google_service_account.sa
 }
+output "email" {
+  value = google_service_account.sa.email
+}

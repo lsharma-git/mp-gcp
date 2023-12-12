@@ -56,7 +56,7 @@ resource "google_cloud_run_v2_service" "cloudrun" {
       }
       egress = "ALL_TRAFFIC"
     }
-    service_account = module.sa.id
+    service_account = module.sa.email
   }
   traffic {
     type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
