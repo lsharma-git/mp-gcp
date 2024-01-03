@@ -1,18 +1,28 @@
 variable "project_id" {}
-variable "region" { default = "europe-west3" }
-variable "zone" { default = "europe-west3-c" }
-variable "environment" { default = "dev" }
+variable "region" {
+  description = "Region detail in which infrastructure would deploy"
+  type        = string
+  default     = "europe-west3"
+}
+variable "zone" {
+  description = "Zone detail in which infrastructure would deploy"
+  type        = string
+  default     = "europe-west3-c"
+}
+variable "environment" {
+  type        = string
+  description = "Environment of the infrastructure"
+  default     = "dev"
+}
 variable "backend_config_map" {
-  default     = {}
   description = "Config for frontend pipeline consumption"
+  type        = map(string)
+  default     = {}
 }
 variable "ip_cidr_range" {
   default = "192.168.1.0/24"
 }
-variable "project_creation_with_new_folder" {
-  type    = bool
-  default = true
-}
+
 variable "sa_role" {
   type = list(string)
   default = [
@@ -24,10 +34,6 @@ variable "sa_role" {
 variable "service_name" {
   type    = string
   default = "mp"
-}
-variable "cloudrun_name" {
-  type    = string
-  default = "cloudrun-service-project1"
 }
 variable "min_instances" {
   type    = number
@@ -44,4 +50,8 @@ variable "loadbalancer_name" {
 variable "managed_ssl_certificate_domains" {
   type    = list(string)
   default = ["example.com"]
+}
+variable "sa_display_name" {
+  type    = string
+  default = "Service Account created by terraform"
 }

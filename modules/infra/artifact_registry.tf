@@ -12,8 +12,7 @@ resource "google_artifact_registry_repository" "my-repo" {
   description   = "My GCP repository"
   format        = "DOCKER"
   labels = {
-    "type" = "project1",
-    "env"  = "test",
+    "env" = var.environment,
     "created-by" : "terraform"
   }
 }

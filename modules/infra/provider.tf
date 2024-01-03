@@ -1,6 +1,11 @@
 terraform {
   required_version = ">= 0.12"
 
+  # backend "gcs" {
+  #   bucket = "terraform_private_tfstate_files"
+  #   prefix = "terraform/state"
+  # }
+
   # We need the google-beta provider to be able to work with secrets
   required_providers {
     google-beta = "~> 5.0"
