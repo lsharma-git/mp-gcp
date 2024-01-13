@@ -14,9 +14,9 @@ resource "google_service_account_key" "sa_key" {
 #   role               = each.key
 #   member             = google_service_account.sa.member
 # }
-resource "google_project_iam_member" "project_iam_member" {
-  for_each = length(var.sa_role) > 0 ? toset(var.sa_role) : []
-  project  = var.project_id
-  role     = each.key
-  member   = google_service_account.sa.member
-}
+# resource "google_project_iam_member" "project_iam_member" {
+#   for_each = length(var.sa_role) > 0 ? toset(var.sa_role) : []
+#   project  = var.project_id
+#   role     = each.key
+#   member   = google_service_account.sa.member
+# }

@@ -23,5 +23,4 @@ resource "google_artifact_registry_repository" "my-repo" {
 #   member        = "serviceAccount:service-${data.google_project.project.number}@gcp-sa-artifactregistry.iam.gserviceaccount.com"
 # }
 
-data "google_project" "project" {}
 
